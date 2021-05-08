@@ -14,6 +14,7 @@ class Widget:
 class Button(Widget):
     def __init__(self, screen, pos, snap, width, height, src, src_hover, src_click):
         super().__init__(screen, pos, width, height)
+        self.offset = pos
         self.snap = snap
         self.src = f'./resources/buttons/{src}'
         self.src_hover = f'./resources/buttons/{src_hover}'
@@ -26,14 +27,20 @@ class Button(Widget):
         screen_size = self.screen.get_size()
         if self.snap != False:
             # snap the x component
-            x = self.pos[0]
-            y = self.pos[1]
+            x = self.offset[0]
+            y = self.offset[1]
             if 'n' in self.snap:
                 y = 0
             if 's' in self.snap:
-                y = screen_size[1] - self.height
+                if self.offset[1] >= 0:
+                    y = screen_size[1] - self.height
+                else:
+                    y = screen_size[1] + self.offset[1]
             if 'e' in self.snap:
-                x = screen_size[0] - self.width
+                if self.offset[0] >= 0:
+                    x = screen_size[0] - self.width
+                else:
+                    x = screen_size[0] + self.offset[0]
             if 'w' in self.snap:
                 x = 0
             self.pos = (x, y)
@@ -75,8 +82,8 @@ class TaskBar(Widget):
         self.widgets.append(Button(screen, (0, 0), 's' , 48, 40, 'start_button.png', 'start_button_hover.png', 'start_button_click.png'))
         self.widgets.append(Button(screen, (48, 0), 's', 344, 40, 'search_button.png', 'search_button_hover.png', 'search_button_click.png'))
         self.widgets.append(Button(screen, (392, 0), 's', 413, 40, 'blank_button.png', 'blank_button_hover.png', 'blank_button_click.png'))
-        self.widgets.append(Button(screen, (0, 0), 'se', 5, 40, 'desktop_button.png', 'desktop_button_hover.png', 'desktop_button_click.png'))
-        self.widgets.append(Button(screen, (0, 0), 'se', 53, 40, 'notifications_button.png', 'notifications_button_hover.png', 'notifications_button_click.png'))
+        self.widgets.append(Button(screen, (-5, 0), 'se', 5, 40, 'desktop_button.png', 'desktop_button_hover.png', 'desktop_button_click.png'))
+        self.widgets.append(Button(screen, (-53, 0), 'se', 48, 40, 'notifications_button.png', 'notifications_button_hover.png', 'notifications_button_click.png'))
 
     def render(self, mouse_pos, mouse_state):
         for widget in self.widgets:
