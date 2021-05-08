@@ -57,7 +57,10 @@ class Background(Widget):
         res = config.get('resolution')
         super().__init__(screen, (0, 0), int(res.split('x')[0]), int(res.split('x')[1]))
         self.image_path = f'./resources/background/{config.get("resolution")}.jpg'
-        self.image_surface = pygame.image.load(self.image_path).convert_alpha()
+        try:
+            self.image_surface = pygame.image.load(self.image_path).convert_alpha()
+        except:
+            raise SyntaxError(f'invalid resolution provided: {config.get("resolution")}')
 
     def render(self, mouse_pos, mouse_state):
         self.screen.blit(self.image_surface, self.pos)
@@ -73,6 +76,7 @@ class TaskBar(Widget):
         self.widgets.append(Button(screen, (48, 0), 's', 344, 40, 'search_button.png', 'search_button_hover.png', 'search_button_click.png'))
         self.widgets.append(Button(screen, (392, 0), 's', 413, 40, 'blank_button.png', 'blank_button_hover.png', 'blank_button_click.png'))
         self.widgets.append(Button(screen, (0, 0), 'se', 5, 40, 'desktop_button.png', 'desktop_button_hover.png', 'desktop_button_click.png'))
+        self.widgets.append(Button(screen, (0, 0), 'se', 53, 40, 'notifications_button.png', 'notifications_button_hover.png', 'notifications_button_click.png'))
 
     def render(self, mouse_pos, mouse_state):
         for widget in self.widgets:
