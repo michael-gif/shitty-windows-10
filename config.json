@@ -1,3 +1,7 @@
 {
-  "resolution": "840x525"
+    "resolution": {
+        "value": "1680x1050",
+        "minimum": false,
+        "maximum": false
+    }
 }

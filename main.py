@@ -7,11 +7,21 @@ from widgets import *
 
 pygame.init()
 
-config = Config()
-
 def get_res_tuple():
-    temp = config.get('resolution')
-    return (int(temp.split('x')[0]), int(temp.split('x')[1]))
+    minimum = (800, 600)
+    infoObject = pygame.display.Info()
+    maximum = (infoObject.current_w, infoObject.current_h)
+    res = [int(a) for a in config.get('resolution')['value'].split('x')]
+    # check if the resolution is bound by a minimum
+    if config.get('resolution')['minimum']:
+        if res[0] < minimum[0] or res[1] < minimum[1]:
+            print('Configured resolution less than allowed minimum, failed to boot')
+            raise Exception
+    if config.get('resolution')['maximum']:
+        if res[0] > maximum[0] or res[1] > maximum[1]:
+            print('Configured resolution more than allowed minimum, failed to boot')
+            raise Exception
+    return res
 
 screen = pygame.display.set_mode(get_res_tuple())
 pygame.display.set_caption('Windows 10')

@@ -11,3 +11,5 @@ class Config:
             return self.__config[key]
         except:
             return None
+
+config = Config()
