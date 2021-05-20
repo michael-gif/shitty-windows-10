@@ -1,2 +1,6 @@
-# shitty-windows-10
-python version of windows 10
+# Shitty Windows 10
+shitty python version of windows 10
+
+### Usage
+- Run `main.py`
+- Enjoy
